@@ -12,6 +12,8 @@ namespace EntropyTests.Diagnostics
 
         [Theory]
         [InlineData(ServerType.Kestrel, RuntimeFlavor.CoreClr, RuntimeArchitecture.x64, "http://localhost:6100")]
+        [InlineData(ServerType.Kestrel, RuntimeFlavor.CoreClr, RuntimeArchitecture.x86, "http://localhost:6107", Skip = "x86 not supported yet")]
+        [InlineData(ServerType.Kestrel, RuntimeFlavor.Clr, RuntimeArchitecture.x86, "http://localhost:6105", Skip = "x86 not supported yet")]
         public async Task ExistingPage_AllPlatforms(ServerType server, RuntimeFlavor runtimeFlavor, RuntimeArchitecture architecture, string applicationBaseUrl)
         {
             await ExistingPage(server, runtimeFlavor, architecture, applicationBaseUrl);
@@ -24,11 +26,7 @@ namespace EntropyTests.Diagnostics
         [InlineData(ServerType.WebListener, RuntimeFlavor.Clr, RuntimeArchitecture.x64, "http://localhost:6102")]
         [InlineData(ServerType.WebListener, RuntimeFlavor.CoreClr, RuntimeArchitecture.x86, "http://localhost:6103", Skip = "x86 not supported yet")]
         [InlineData(ServerType.WebListener, RuntimeFlavor.CoreClr, RuntimeArchitecture.x64, "http://localhost:6104")]
-        [InlineData(ServerType.Kestrel, RuntimeFlavor.Clr, RuntimeArchitecture.x86, "http://localhost:6105", Skip = "x86 not supported yet")]
         [InlineData(ServerType.Kestrel, RuntimeFlavor.Clr, RuntimeArchitecture.x64, "http://localhost:6106")]
-        [InlineData(ServerType.Kestrel, RuntimeFlavor.CoreClr, RuntimeArchitecture.x86, "http://localhost:6107", Skip = "x86 not supported yet")]
-        // Already covered by all platforms:
-        [InlineData(ServerType.WebListener, RuntimeFlavor.CoreClr, RuntimeArchitecture.x86, "http://localhost:6108", Skip = "x86 not supported yet")]
         public async Task ExistingPage_WindowsOnly(ServerType server, RuntimeFlavor runtimeFlavor, RuntimeArchitecture architecture, string applicationBaseUrl)
         {
             await ExistingPage(server, runtimeFlavor, architecture, applicationBaseUrl);
@@ -37,7 +35,6 @@ namespace EntropyTests.Diagnostics
         [ConditionalTheory]
         [OSSkipCondition(OperatingSystems.Windows)]
         [InlineData(ServerType.Kestrel, RuntimeFlavor.Clr, RuntimeArchitecture.x64, "http://localhost:6109", Skip = "Disabled due to https://github.com/dotnet/corefx/issues/9012")]
-        [InlineData(ServerType.Kestrel, RuntimeFlavor.CoreClr, RuntimeArchitecture.x64, "http://localhost:6110")]
         [InlineData(ServerType.Nginx, RuntimeFlavor.CoreClr, RuntimeArchitecture.x64, "http://localhost:6111")]
         public async Task ExistingPage_NonWindowsOnly(ServerType server, RuntimeFlavor runtimeFlavor, RuntimeArchitecture architecture, string applicationBaseUrl)
         {
